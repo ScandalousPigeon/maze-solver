@@ -1,4 +1,5 @@
 from tkinter import Tk, BOTH, Canvas
+from drawing import *
 
 class Window:
     def __init__(self, width, height):
@@ -10,7 +11,6 @@ class Window:
         self.__canvas.pack(fill='both', expand=True)
         self.__running = False
         
-
     def redraw(self):
         self.__root.update_idletasks()
         self.__root.update()
@@ -22,3 +22,6 @@ class Window:
     
     def close(self):
         self.__running = False
+
+    def draw_line(self, line, fill_colour):
+        line.draw(self.__canvas, fill_colour)
