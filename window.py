@@ -16,11 +16,13 @@ class Window:
         self.__root.update()
     
     def wait_for_close(self):
+        """Continually redraws Window as long as self.__running is True."""
         self.__running = True
         while self.__running:
             self.redraw()
     
     def close(self):
+        """Closes the Window."""
         self.__running = False
 
     def draw_line(self, line, fill_colour):
