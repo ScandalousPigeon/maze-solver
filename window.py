@@ -3,17 +3,19 @@ from drawing import *
 
 class Window:
     def __init__(self, width, height):
-        self.__root = Tk()
-        self.__root.title("Maze Solver")
-        self.__root.geometry(f"{width}x{height}")
-        self.__root.protocol("WM_DELETE_WINDOW", self.close)
-        self.__canvas = Canvas(self.__root, width=width, height=height)
+        self._width = width
+        self._height = height
+        self._root = Tk()
+        self._root.title("Maze Solver")
+        self._root.geometry(f"{width}x{height}")
+        self._root.protocol("WM_DELETE_WINDOW", self.close)
+        self.__canvas = Canvas(self._root, width=width, height=height)
         self.__canvas.pack(fill='both', expand=True)
         self.__running = False
         
     def redraw(self):
-        self.__root.update_idletasks()
-        self.__root.update()
+        self._root.update_idletasks()
+        self._root.update()
     
     def wait_for_close(self):
         """Continually redraws Window as long as self.__running is True."""
