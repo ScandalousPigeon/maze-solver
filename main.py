@@ -1,5 +1,5 @@
 from window import *
-from grid import Grid
+from maze import Maze
 
 def main():
     window = Window(940, 1000)
@@ -11,7 +11,7 @@ def main():
     second_cell.draw()
     dead_cells.draw_move(second_cell, True)
     """
-    grid = Grid(20, 20, 30, 30, 25, 25, window)
+    maze = Maze(20, 20, 30, 30, 25, 25, window)
     window.wait_for_close()
 
 if __name__ == "__main__":

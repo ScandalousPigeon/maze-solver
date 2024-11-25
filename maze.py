@@ -2,19 +2,19 @@ from drawing import *
 from window import Window
 import tkinter as tk
 
-class Grid:
-    """Grid object, grid where the magic happens.
+class Maze:
+    """Maze object, Maze where the magic happens.
 
-    Class will draw a grid when created.
+    Class will draw a Maze when created.
 
     Attributes:
-        x (int): horizontal distance of the start of the grid from the edge of the window.
-        y (int): vertical distance of the start of the grid from the edge of the window.
-        num_rows (int): number of rows in the grid.
-        num_cols (int): number of columns in the grid.
-        cell_size_x (int): how wide each cell in the grid should be, in pixels.
-        cell_size_y (int): how tall each cell in the grid should be, in pixels.
-        win (Window): the Window on which the grid should be formed.
+        x (int): horizontal distance of the start of the Maze from the edge of the window.
+        y (int): vertical distance of the start of the Maze from the edge of the window.
+        num_rows (int): number of rows in the Maze.
+        num_cols (int): number of columns in the Maze.
+        cell_size_x (int): how wide each cell in the Maze should be, in pixels.
+        cell_size_y (int): how tall each cell in the Maze should be, in pixels.
+        win (Window): the Window on which the Maze should be formed.
     """
     def __init__(
             self,
@@ -36,9 +36,9 @@ class Grid:
         self._create_cells()
     
     def _create_cells(self):
-        """Method responsible for the drawing of the grid.
+        """Method responsible for the drawing of the Maze.
         
-        Checks if the inputed dimensions are valid and then draws the grid.
+        Checks if the inputed dimensions are valid and then draws the Maze.
 
         Raises:
             Exception if the inputed dimensions do not fit the self._win object.
@@ -55,11 +55,11 @@ class Grid:
     def _draw_cell(self, i, j):
         """Helper method for self._create_cells().
         
-        Calculates the coordinates for the given cell in the grid and then draws it.
+        Calculates the coordinates for the given cell in the Maze and then draws it.
 
         Args:
-            i (int): which column in the grid the cell is located.
-            j (int): which row in the grid the cell is located.
+            i (int): which column in the Maze the cell is located.
+            j (int): which row in the Maze the cell is located.
         """
         x1 = self._x + i * self._cell_size_x
         y1 = self._y + j * self._cell_size_y
@@ -75,4 +75,4 @@ class Grid:
         Redraws the Window using Window.redraw(), and then introduces a 50ms delay.
         """
         self._win.redraw()
-        self._win._root.after(50)
+        self._win._root.after(20)
