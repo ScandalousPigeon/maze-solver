@@ -40,6 +40,7 @@ class Maze:
         self._create_cells()
         self._break_entrance_and_exit()
         self._break_walls_r(0, 0)
+        self._reset_cells_visited()
     
     def _create_cells(self):
         """Method responsible for the drawing of the Maze.
@@ -154,3 +155,9 @@ class Maze:
                 self._cells[i][j].draw()
                 self._cells[i + 1][j].draw()
                 self._break_walls_r(i + 1, j)
+
+    def _reset_cells_visited(self):
+        """Method to reset the visited attributes of every Cell in the Maze to False."""
+        for column in self._cells:
+            for cell in column:
+                cell.visited = False
