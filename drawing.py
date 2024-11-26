@@ -45,12 +45,13 @@ class Cell:
         self.y2 = y2
 
         self._win = win
+        self.visited = False
 
     def draw(self):
         """Method responsible for graphically drawing the cell.
         
-        Draws a white line if the corresponding has_wall attribute is False.
-        White was chosen because my system's tk background is white.
+        Draws a #D9D9D9 line if the corresponding has_wall attribute is False.
+        #D9D9D9 was chosen because that's what my system's tk background is.
         """
         top_left = Point(self.x1, self.y1)
         top_right = Point(self.x2, self.y1)
@@ -61,19 +62,19 @@ class Cell:
         top_wall_colour = "black"
         bottom_wall_colour = "black"
         if not self.has_left_wall:
-            left_wall_colour = "white"
+            left_wall_colour = "#D9D9D9"
         left_wall = Line(top_left, bottom_left)
         self._win.draw_line(left_wall, left_wall_colour)
         if not self.has_right_wall:
-            right_wall_colour = "white"
+            right_wall_colour = "#D9D9D9"
         right_wall = Line(top_right, bottom_right)
         self._win.draw_line(right_wall, right_wall_colour)
         if not self.has_top_wall:
-            top_wall_colour = "white"
+            top_wall_colour = "#D9D9D9"
         top_wall = Line(top_left, top_right)
         self._win.draw_line(top_wall, top_wall_colour)
         if not self.has_bottom_wall:
-            bottom_wall_colour = "white"
+            bottom_wall_colour = "#D9D9D9"
         bottom_wall = Line(bottom_left, bottom_right)
         self._win.draw_line(bottom_wall, bottom_wall_colour)
             

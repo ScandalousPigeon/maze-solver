@@ -1,6 +1,7 @@
 from drawing import *
 from window import Window
 import tkinter as tk
+import random
 
 class Maze:
     """Maze object, Maze where the magic happens.
@@ -26,6 +27,8 @@ class Maze:
             cell_size_y,
             win,
         ):
+        if num_rows != num_cols:
+            raise Exception("Maze must be a square.")
         self._x = x
         self._y = y
         self._num_rows = num_rows
@@ -33,7 +36,10 @@ class Maze:
         self._cell_size_x = cell_size_x
         self._cell_size_y = cell_size_y
         self._win = win
+        self._seed = 0 # for debugging
         self._create_cells()
+        self._break_entrance_and_exit()
+        self._break_walls_r(0, 0)
     
     def _create_cells(self):
         """Method responsible for the drawing of the Maze.
@@ -65,8 +71,11 @@ class Maze:
         y1 = self._y + j * self._cell_size_y
         x2 = x1 + self._cell_size_x
         y2 = y1 + self._cell_size_y
-        new_cell = Cell(x1, y1, x2, y2, self._win)
-        new_cell.draw()
+        self._cells[i][j].x1 = x1
+        self._cells[i][j].y1 = y1
+        self._cells[i][j].x2 = x2
+        self._cells[i][j].y2 = y2
+        self._cells[i][j].draw()
         self._animate()
 
     def _animate(self):
@@ -76,3 +85,72 @@ class Maze:
         """
         self._win.redraw()
         self._win._root.after(20)
+    
+    def _break_entrance_and_exit(self):
+        """Method that creates an entrance and exit in the Maze.
+        
+        'Breaks' the top wall of the top left block, and
+        'breaks' the bottom wall of the bottom right block.
+        """
+        self._cells[0][0].has_top_wall = False
+        self._draw_cell(0, 0)
+        self._cells[self._num_cols - 1][self._num_rows - 1].has_bottom_wall = False
+        self._draw_cell(self._num_cols - 1, self._num_rows - 1)
+
+    def _break_walls_r(self, i, j):
+        """Method to create a path through the maze, by breaking walls.
+        
+        Args:
+            i (int): the current column.
+            j (int): the current row.
+        """
+        self._cells[i][j].visited = True
+        while True:
+            possible_directions = []
+            if i < len(self._cells) - 1:
+                if not self._cells[i + 1][j].visited:
+                    possible_directions.append((i + 1, j))
+            if 0 < i:
+                if not self._cells[i - 1][j].visited:
+                    possible_directions.append((i - 1, j))
+            if j < len(self._cells) - 1:
+                if not self._cells[i][j + 1].visited:
+                    possible_directions.append((i, j + 1))
+            if 0 < j:
+                if not self._cells[i][j - 1].visited:
+                    possible_directions.append((i, j - 1))
+            if not possible_directions:
+                self._cells[i][j].draw()
+                return
+            direction = random.randint(0, len(possible_directions) - 1)
+            chosen = possible_directions[direction]
+            # four cases to consider. x1y1 = x2y1 or x1y2
+            # and x2y2 = x2y1 or x1y2. we use this to find which border is touching.
+            if chosen == (i, j - 1):
+                # then this cell is above the current cell.
+                self._cells[i][j].has_top_wall = False
+                self._cells[i][j - 1].has_bottom_wall = False
+                self._cells[i][j].draw()
+                self._cells[i][j - 1].draw()
+                self._break_walls_r(i, j - 1)
+            if chosen == (i - 1, j):
+                # then this cell is to the left of the current cell.
+                self._cells[i][j].has_left_wall = False
+                self._cells[i - 1][j].has_right_wall = False
+                self._cells[i][j].draw()
+                self._cells[i - 1][j].draw()
+                self._break_walls_r(i - 1, j)
+            if chosen == (i, j + 1):
+                # then this cell is below the current cell.
+                self._cells[i][j].has_bottom_wall = False
+                self._cells[i][j + 1].has_top_wall = False
+                self._cells[i][j].draw()
+                self._cells[i][j + 1].draw()
+                self._break_walls_r(i, j + 1)
+            if chosen == (i + 1, j):
+                # then this cell is to the right of the current cell.
+                self._cells[i][j].has_right_wall = False
+                self._cells[i + 1][j].has_left_wall = False
+                self._cells[i][j].draw()
+                self._cells[i + 1][j].draw()
+                self._break_walls_r(i + 1, j)
