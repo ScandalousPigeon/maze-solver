@@ -47,6 +47,10 @@ class Cell:
         self._win = win
         self.visited = False
 
+    def __repr__(self):
+        """For testing purposes."""
+        return f"Cell({self.has_left_wall}, {self.has_right_wall}, {self.has_top_wall}, {self.has_bottom_wall})"
+
     def draw(self):
         """Method responsible for graphically drawing the cell.
         
